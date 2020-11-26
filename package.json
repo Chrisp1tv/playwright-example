@@ -1,0 +1,21 @@
+{
+  "name": "playwright-example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "playwright": "^1.6.2"
+  },
+  "build": {
+    "files": [
+      "node_modules/",
+      "package.json"
+    ]
+  },
+  "devDependencies": {
+    "playwright-cli": "^0.162.1"
+  }
+}
