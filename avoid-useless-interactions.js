@@ -1,4 +1,4 @@
-const playwright = require('playwright');
+const main = require("./main");
 
 (async () => {
     // Both following functions are leading to the same result:
@@ -8,7 +8,7 @@ const playwright = require('playwright');
 })();
 
 async function findNantesDentistsDumbWay() {
-    const page = await setupPage();
+    const page = await main.setupPage();
 
     await page.goto('https://doctolib.fr/');
     await page.fill('xpath=//input[@class="searchbar-input searchbar-query-input"]', 'Dentiste');
@@ -22,15 +22,8 @@ async function findNantesDentistsDumbWay() {
 }
 
 async function findNantesDentistsFaster() {
-    const page = await setupPage();
+    const page = await main.setupPage();
 
     await page.goto('https://www.doctolib.fr/dentiste/nantes');
     await page.screenshot({ path: 'doctolib-results.png' });
-}
-
-async function setupPage() {
-    const browser = await playwright['chromium'].launch();
-    const context = await browser.newContext();
-
-    return context.newPage();
 }
