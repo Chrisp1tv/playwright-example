@@ -4,21 +4,28 @@ const main = require("./main");
     // Both following functions are leading to the same result:
     // find dentists in Nantes city from Doctolib and take a screenshot of the results page.
     await findNantesDentistsDumbWay();
-    await findNantesDentistsFaster();
+    //await findNantesDentistsFaster();
 })();
 
 async function findNantesDentistsDumbWay() {
     const page = await main.setupPage();
 
     await page.goto('https://doctolib.fr/');
+    await page.click('#didomi-notice-agree-button');
     await page.fill('xpath=//input[@class="searchbar-input searchbar-query-input"]', 'Dentiste');
     await page.fill('xpath=//input[@class="searchbar-input searchbar-place-input"]', 'Nantes');
     await page.click('xpath=//div[@class="searchbar-place-submit"]//button[2]');
     await page.click('xpath=//div[@class="searchbar-place-submit"]//button[@type="submit"]');
 
-    // Wait for navigation to page results, to prevent playwright from taking a screen of the homepage
+    // Wait for navigation to page results
     await page.waitForNavigation();
-    await page.screenshot({ path: 'doctolib-results.png' });
+
+    // in results page
+    await page.click('text=prochain rdv le');
+    await page.click('.availabilities-slot');
+    const option = await page.waitForSelector('#booking_motive > option:nth-child(2)', {state: 'attached'});
+    await page.selectOption('#booking_motive', option);
+    await page.click('.dl-step >> text=prendre rendez-vous');
 }
 
 async function findNantesDentistsFaster() {
